@@ -22,3 +22,4 @@ mvn spring-boot:run
 - Spring Security
 - JWT
 - Swagger 2.0
+- Lombok
