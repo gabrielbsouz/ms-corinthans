@@ -13,6 +13,10 @@ public class JogadorServiceImpl implements JogadorService {
     @Autowired
     private SoccerPlayerRepository soccerPlayerRepository;
 
+    public JogadorServiceImpl(SoccerPlayerRepository soccerPlayerRepository) {
+        this.soccerPlayerRepository = soccerPlayerRepository;
+    }
+
     @Override
     public SoccerPlayer buscarJogador(Long id) {
 
