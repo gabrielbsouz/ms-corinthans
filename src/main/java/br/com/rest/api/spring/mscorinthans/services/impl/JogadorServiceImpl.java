@@ -6,8 +6,6 @@ import br.com.rest.api.spring.mscorinthans.services.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class JogadorServiceImpl implements JogadorService {
 
@@ -15,7 +13,8 @@ public class JogadorServiceImpl implements JogadorService {
     private SoccerPlayerRepository soccerPlayerRepository;
 
     @Override
-    public Optional<SoccerPlayer> buscarJogador(Long id) {
-        return soccerPlayerRepository.findById(id);
+    public SoccerPlayer buscarJogador(Long id) {
+
+        return soccerPlayerRepository.findById(id).orElseThrow(() -> new RuntimeException());
     }
 }
