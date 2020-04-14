@@ -23,3 +23,5 @@ mvn spring-boot:run
 - JWT
 - Swagger 2.0
 - Lombok
+- MapStruct
+- JUnit 4
