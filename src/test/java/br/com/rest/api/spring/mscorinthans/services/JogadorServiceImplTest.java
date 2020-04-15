@@ -69,5 +69,4 @@ public class JogadorServiceImplTest {
 
         jogadorService.buscarJogador((long) ID_INVALIDO);
     }
-
 }

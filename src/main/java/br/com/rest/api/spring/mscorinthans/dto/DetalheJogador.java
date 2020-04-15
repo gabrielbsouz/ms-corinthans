@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class DetalheJogador {
 
+    private String altura;
+    private String cidadeNatal;
+    private int idade;
     private String nome;
     private String posicao;
-    private String altura;
-    private int idade;
-    private String cidadeNatal;
 
 }
