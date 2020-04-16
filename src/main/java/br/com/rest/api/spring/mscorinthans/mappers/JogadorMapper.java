@@ -1,13 +1,24 @@
 package br.com.rest.api.spring.mscorinthans.mappers;
 
 import br.com.rest.api.spring.mscorinthans.dto.DetalheJogador;
+import br.com.rest.api.spring.mscorinthans.dto.Jogador;
 import br.com.rest.api.spring.mscorinthans.models.SoccerPlayer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface JogadorMapper {
+
+    @Mappings({
+            @Mapping(target="nome", source="soccerPlayer.name"),
+            @Mapping(target="posicao", source="soccerPlayer.position")
+    })
+    Jogador soccerPlayerToJogador(SoccerPlayer soccerPlayer);
+
+    List<Jogador> soccerPlayersToJogadores(List<SoccerPlayer> soccerPlayers);
 
     @Mappings({
             @Mapping(target="nome", source="soccerPlayer.name"),

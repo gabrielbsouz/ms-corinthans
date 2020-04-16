@@ -10,16 +10,19 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 public class JogadorServiceImplTest {
 
     private static final int ID_VALIDO = 1;
-    private static final int ID_INVALIDO = 2;
+    private static final int ID_INVALIDO = 1000;
     private static final String NOME_VALIDO = "Cássio";
     private static final String POSICAO_VALIDA = "GOLEIRO";
     private static final String ALTURA_VALIDA = "1,95";
@@ -32,6 +35,8 @@ public class JogadorServiceImplTest {
     private JogadorService jogadorService;
 
     private SoccerPlayer soccerPlayer;
+    private SoccerPlayer soccerPlayer2;
+    private List<SoccerPlayer> soccerPlayerList = new ArrayList<>();
 
     @Before
     public void setUp(){
@@ -45,7 +50,29 @@ public class JogadorServiceImplTest {
         soccerPlayer.setHeight(ALTURA_VALIDA);
         soccerPlayer.setAge(IDADE_VALIDA);
         soccerPlayer.setHometown(CIDADE_NATAL_VALIDA);
+
+        soccerPlayer2 = new SoccerPlayer();
+        soccerPlayer2.setName("Guilherme");
+        soccerPlayer2.setPosition(POSICAO_VALIDA);
+        soccerPlayer2.setHeight("1,88");
+        soccerPlayer2.setAge(19);
+        soccerPlayer2.setHometown("Jundiaí");
+
+        soccerPlayerList.add(soccerPlayer);
+        soccerPlayerList.add(soccerPlayer2);
     }
+
+    @Test
+    public void listarJogadoresSucesso(){
+
+        when(soccerPlayerRepository.findAll()).thenReturn(soccerPlayerList);
+
+        List<SoccerPlayer> soccerPlayers = jogadorService.listaDeJogadores();
+
+        assertThat(soccerPlayers).isNotEmpty();
+        assertThat(soccerPlayers).size().isEqualTo(soccerPlayerList.size());
+    }
+
 
     @Test
     public void buscarJogadorSucesso() {
