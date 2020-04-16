@@ -1,5 +1,6 @@
 package br.com.rest.api.spring.mscorinthans.services;
 
+import br.com.rest.api.spring.mscorinthans.dto.Error;
 import br.com.rest.api.spring.mscorinthans.exceptions.JogadorNaoEncontradoException;
 import br.com.rest.api.spring.mscorinthans.models.SoccerPlayer;
 import br.com.rest.api.spring.mscorinthans.repositories.SoccerPlayerRepository;
@@ -9,13 +10,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -24,6 +26,7 @@ public class JogadorServiceImplTest {
     private static final int ID_VALIDO = 1;
     private static final int ID_INVALIDO = 1000;
     private static final String NOME_VALIDO = "Cássio";
+    private static final String NOME_INVALIDO = "";
     private static final String POSICAO_VALIDA = "GOLEIRO";
     private static final String ALTURA_VALIDA = "1,95";
     private static final int IDADE_VALIDA = 32;
@@ -36,6 +39,7 @@ public class JogadorServiceImplTest {
 
     private SoccerPlayer soccerPlayer;
     private SoccerPlayer soccerPlayer2;
+    private SoccerPlayer soccerPlayerInvalid;
     private List<SoccerPlayer> soccerPlayerList = new ArrayList<>();
 
     @Before
@@ -60,10 +64,17 @@ public class JogadorServiceImplTest {
 
         soccerPlayerList.add(soccerPlayer);
         soccerPlayerList.add(soccerPlayer2);
+
+        soccerPlayerInvalid = new SoccerPlayer();
+        soccerPlayerInvalid.setName(NOME_INVALIDO);
+        soccerPlayerInvalid.setPosition(POSICAO_VALIDA);
+        soccerPlayerInvalid.setHeight(ALTURA_VALIDA);
+        soccerPlayerInvalid.setAge(IDADE_VALIDA);
+        soccerPlayerInvalid.setHometown(CIDADE_NATAL_VALIDA);
     }
 
     @Test
-    public void listarJogadoresSucesso(){
+    public void listaDeJogadoresSucesso(){
 
         when(soccerPlayerRepository.findAll()).thenReturn(soccerPlayerList);
 
@@ -73,6 +84,13 @@ public class JogadorServiceImplTest {
         assertThat(soccerPlayers).size().isEqualTo(soccerPlayerList.size());
     }
 
+    @Test
+    public void incluirJogadorSucesso(){
+
+        jogadorService.incluirJogador(soccerPlayer);
+
+        verify(soccerPlayerRepository).save(soccerPlayer);
+    }
 
     @Test
     public void buscarJogadorSucesso() {
