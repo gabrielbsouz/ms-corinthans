@@ -40,6 +40,7 @@ public class JogadorServiceImplTest {
     private SoccerPlayer soccerPlayer;
     private SoccerPlayer soccerPlayer2;
     private SoccerPlayer soccerPlayerInvalid;
+    private SoccerPlayer soccerPlayerUpdate;
     private List<SoccerPlayer> soccerPlayerList = new ArrayList<>();
 
     @Before

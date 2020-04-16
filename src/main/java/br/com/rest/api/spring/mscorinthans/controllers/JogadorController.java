@@ -3,6 +3,7 @@ package br.com.rest.api.spring.mscorinthans.controllers;
 import br.com.rest.api.spring.mscorinthans.dto.DetalheJogador;
 import br.com.rest.api.spring.mscorinthans.dto.Jogador;
 import br.com.rest.api.spring.mscorinthans.forms.JogadorFormPost;
+import br.com.rest.api.spring.mscorinthans.forms.JogadorFormPut;
 import br.com.rest.api.spring.mscorinthans.mappers.JogadorMapper;
 import br.com.rest.api.spring.mscorinthans.models.SoccerPlayer;
 import br.com.rest.api.spring.mscorinthans.services.JogadorService;
@@ -53,5 +54,17 @@ public class JogadorController {
         SoccerPlayer model = jogadorService.buscarJogador(id);
 
         return ResponseEntity.ok(jogadorMapper.soccerPlayerToDetalheJogador(model));
+    }
+
+    @PutMapping("/v1/jogadores/{id}")
+    public ResponseEntity<Jogador> atualizarJogador(@PathVariable Long id, @Valid @RequestBody JogadorFormPut jogadorFormPut){
+
+        SoccerPlayer soccerPlayer = jogadorMapper.jogadorFormPutToSoccerPlayer(jogadorFormPut);
+
+        jogadorService.alterarJogador(id,soccerPlayer);
+
+        Jogador jogador = jogadorMapper.soccerPlayerToJogador(soccerPlayer);
+
+        return ResponseEntity.ok(jogador);
     }
 }

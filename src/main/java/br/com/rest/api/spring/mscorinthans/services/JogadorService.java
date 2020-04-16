@@ -11,4 +11,6 @@ public interface JogadorService {
     public SoccerPlayer incluirJogador(SoccerPlayer soccerPlayer);
 
     public SoccerPlayer buscarJogador(Long id);
+
+    public SoccerPlayer alterarJogador(Long id, SoccerPlayer soccerPlayer);
 }
