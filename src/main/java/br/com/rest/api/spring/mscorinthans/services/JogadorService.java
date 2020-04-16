@@ -8,5 +8,7 @@ public interface JogadorService {
 
     public List<SoccerPlayer> listaDeJogadores();
 
+    public SoccerPlayer incluirJogador(SoccerPlayer soccerPlayer);
+
     public SoccerPlayer buscarJogador(Long id);
 }
