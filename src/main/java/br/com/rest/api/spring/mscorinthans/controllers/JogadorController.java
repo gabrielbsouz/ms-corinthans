@@ -1,6 +1,7 @@
 package br.com.rest.api.spring.mscorinthans.controllers;
 
 import br.com.rest.api.spring.mscorinthans.dto.DetalheJogador;
+import br.com.rest.api.spring.mscorinthans.dto.Jogador;
 import br.com.rest.api.spring.mscorinthans.mappers.JogadorMapper;
 import br.com.rest.api.spring.mscorinthans.models.SoccerPlayer;
 import br.com.rest.api.spring.mscorinthans.services.JogadorService;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/rest/api/corinthans")
 public class JogadorController {
@@ -20,6 +23,14 @@ public class JogadorController {
 
     @Autowired
     private JogadorMapper jogadorMapper;
+
+    @GetMapping("/v1/jogadores")
+    public ResponseEntity<List<Jogador>> listarJogadores(){
+
+        List<SoccerPlayer> model = jogadorService.listaDeJogadores();
+
+        return ResponseEntity.ok(jogadorMapper.soccerPlayersToJogadores(model));
+    }
 
     @GetMapping("/v1/jogadores/{id}")
     public ResponseEntity<DetalheJogador> consultarJogador(@PathVariable Long id){

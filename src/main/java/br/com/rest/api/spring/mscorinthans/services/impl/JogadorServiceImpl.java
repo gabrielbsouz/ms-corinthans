@@ -7,6 +7,8 @@ import br.com.rest.api.spring.mscorinthans.services.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JogadorServiceImpl implements JogadorService {
 
@@ -15,6 +17,11 @@ public class JogadorServiceImpl implements JogadorService {
 
     public JogadorServiceImpl(SoccerPlayerRepository soccerPlayerRepository) {
         this.soccerPlayerRepository = soccerPlayerRepository;
+    }
+
+    @Override
+    public List<SoccerPlayer> listaDeJogadores() {
+        return soccerPlayerRepository.findAll();
     }
 
     @Override
