@@ -41,4 +41,20 @@ public class JogadorServiceImpl implements JogadorService {
         return soccerPlayerRepository.findById(id)
                 .orElseThrow(() -> new JogadorNaoEncontradoException("Jogador com o id: "+ id + " não foi encontrado!"));
     }
+
+    @Override
+    public SoccerPlayer alterarJogador(Long id, SoccerPlayer soccerPlayer) {
+
+        soccerPlayerRepository.findById(id)
+                .map(jogador -> {
+                    jogador.setName(soccerPlayer.getName());
+                    jogador.setPosition(soccerPlayer.getPosition());
+                    jogador.setHeight(soccerPlayer.getHeight());
+                    jogador.setAge(soccerPlayer.getAge());
+                    jogador.setHometown(soccerPlayer.getHometown());
+                    return soccerPlayerRepository.save(jogador);
+                }).orElseThrow(() -> new JogadorNaoEncontradoException("Jogador com o id: " + id + " não encontrado!"));
+
+        return soccerPlayer;
+    }
 }

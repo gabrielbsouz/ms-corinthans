@@ -3,6 +3,7 @@ package br.com.rest.api.spring.mscorinthans.mappers;
 import br.com.rest.api.spring.mscorinthans.dto.DetalheJogador;
 import br.com.rest.api.spring.mscorinthans.dto.Jogador;
 import br.com.rest.api.spring.mscorinthans.forms.JogadorFormPost;
+import br.com.rest.api.spring.mscorinthans.forms.JogadorFormPut;
 import br.com.rest.api.spring.mscorinthans.models.SoccerPlayer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -38,6 +39,24 @@ public interface JogadorMapper {
             @Mapping(target="posicao", source="soccerPlayer.position")
     })
     JogadorFormPost soccerPlayerToJogadorFormPost(SoccerPlayer soccerPlayer);
+
+    @Mappings({
+            @Mapping(target="height", source="jogadorFormPut.altura"),
+            @Mapping(target="hometown", source="jogadorFormPut.cidadeNatal"),
+            @Mapping(target="age", source="jogadorFormPut.idade"),
+            @Mapping(target="name", source="jogadorFormPut.nome"),
+            @Mapping(target="position", source="jogadorFormPut.posicao")
+    })
+    SoccerPlayer jogadorFormPutToSoccerPlayer(JogadorFormPut jogadorFormPut);
+
+    @Mappings({
+            @Mapping(target="altura", source="soccerPlayer.height"),
+            @Mapping(target="cidadeNatal", source="soccerPlayer.hometown"),
+            @Mapping(target="idade", source="soccerPlayer.age"),
+            @Mapping(target="nome", source="soccerPlayer.name"),
+            @Mapping(target="posicao", source="soccerPlayer.position")
+    })
+    JogadorFormPut soccerPlayerToJogadorFormPut(SoccerPlayer soccerPlayer);
 
     @Mappings({
             @Mapping(target="nome", source="soccerPlayer.name"),
