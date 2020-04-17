@@ -13,6 +13,11 @@ cd ms-corinthans
 mvn spring-boot:run
 ```
 
+## Swagger-Ui
+```
+http://localhost:8080/swagger-ui.html
+```
+
 ## Architecture
 
 - Java 8

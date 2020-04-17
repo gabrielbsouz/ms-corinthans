@@ -1,6 +1,5 @@
 package br.com.rest.api.spring.mscorinthans.services;
 
-import br.com.rest.api.spring.mscorinthans.dto.Error;
 import br.com.rest.api.spring.mscorinthans.exceptions.JogadorNaoEncontradoException;
 import br.com.rest.api.spring.mscorinthans.models.SoccerPlayer;
 import br.com.rest.api.spring.mscorinthans.repositories.SoccerPlayerRepository;
@@ -10,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,24 +21,21 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class JogadorServiceImplTest {
 
-    private static final int ID_VALIDO = 1;
-    private static final int ID_INVALIDO = 1000;
-    private static final String NOME_VALIDO = "Cássio";
-    private static final String NOME_INVALIDO = "";
-    private static final String POSICAO_VALIDA = "GOLEIRO";
+    private static final Long ID_VALIDO = 1L;
+    private static final Long ID_NAO_ENCONTRADO = 100L;
+    private static final String NOME_VALIDO = "Teste Nome";
+    private static final String POSICAO_VALIDA = "Teste Posicao";
     private static final String ALTURA_VALIDA = "1,95";
-    private static final int IDADE_VALIDA = 32;
-    private static final String CIDADE_NATAL_VALIDA = "Veranópolis";
+    private static final int IDADE_VALIDA = 30;
+    private static final String CIDADE_NATAL_VALIDA = "Teste Cidade";
 
     @MockBean
     private SoccerPlayerRepository soccerPlayerRepository;
 
     private JogadorService jogadorService;
 
-    private SoccerPlayer soccerPlayer;
-    private SoccerPlayer soccerPlayer2;
-    private SoccerPlayer soccerPlayerInvalid;
-    private SoccerPlayer soccerPlayerUpdate;
+    private SoccerPlayer sc;
+    private SoccerPlayer sc1;
     private List<SoccerPlayer> soccerPlayerList = new ArrayList<>();
 
     @Before
@@ -48,30 +43,24 @@ public class JogadorServiceImplTest {
 
         jogadorService = new JogadorServiceImpl(soccerPlayerRepository);
 
-        soccerPlayer = new SoccerPlayer();
-        soccerPlayer.setId((long) ID_VALIDO);
-        soccerPlayer.setName(NOME_VALIDO);
-        soccerPlayer.setPosition(POSICAO_VALIDA);
-        soccerPlayer.setHeight(ALTURA_VALIDA);
-        soccerPlayer.setAge(IDADE_VALIDA);
-        soccerPlayer.setHometown(CIDADE_NATAL_VALIDA);
+        sc = new SoccerPlayer();
+        sc.setId(ID_VALIDO);
+        sc.setName(NOME_VALIDO);
+        sc.setPosition(POSICAO_VALIDA);
+        sc.setHeight(ALTURA_VALIDA);
+        sc.setAge(IDADE_VALIDA);
+        sc.setHometown(CIDADE_NATAL_VALIDA);
 
-        soccerPlayer2 = new SoccerPlayer();
-        soccerPlayer2.setName("Guilherme");
-        soccerPlayer2.setPosition(POSICAO_VALIDA);
-        soccerPlayer2.setHeight("1,88");
-        soccerPlayer2.setAge(19);
-        soccerPlayer2.setHometown("Jundiaí");
+        sc1 = new SoccerPlayer();
+        sc1.setId(2L);
+        sc1.setName(NOME_VALIDO);
+        sc1.setPosition(POSICAO_VALIDA);
+        sc1.setHeight(ALTURA_VALIDA);
+        sc1.setAge(IDADE_VALIDA);
+        sc1.setHometown(CIDADE_NATAL_VALIDA);
 
-        soccerPlayerList.add(soccerPlayer);
-        soccerPlayerList.add(soccerPlayer2);
-
-        soccerPlayerInvalid = new SoccerPlayer();
-        soccerPlayerInvalid.setName(NOME_INVALIDO);
-        soccerPlayerInvalid.setPosition(POSICAO_VALIDA);
-        soccerPlayerInvalid.setHeight(ALTURA_VALIDA);
-        soccerPlayerInvalid.setAge(IDADE_VALIDA);
-        soccerPlayerInvalid.setHometown(CIDADE_NATAL_VALIDA);
+        soccerPlayerList.add(sc);
+        soccerPlayerList.add(sc1);
     }
 
     @Test
@@ -81,38 +70,75 @@ public class JogadorServiceImplTest {
 
         List<SoccerPlayer> soccerPlayers = jogadorService.listaDeJogadores();
 
-        assertThat(soccerPlayers).isNotEmpty();
-        assertThat(soccerPlayers).size().isEqualTo(soccerPlayerList.size());
+        assertThat(soccerPlayers).isEqualTo(soccerPlayerList);
     }
 
     @Test
     public void incluirJogadorSucesso(){
 
-        jogadorService.incluirJogador(soccerPlayer);
+        jogadorService.incluirJogador(sc);
 
-        verify(soccerPlayerRepository).save(soccerPlayer);
+        verify(soccerPlayerRepository).save(sc);
     }
 
     @Test
-    public void buscarJogadorSucesso() {
+    public void buscarJogadorSucesso(){
 
-        when(soccerPlayerRepository.findById((long) ID_VALIDO)).thenReturn(Optional.of(soccerPlayer));
+        when(soccerPlayerRepository.findById(ID_VALIDO)).thenReturn(Optional.of(sc));
 
-        SoccerPlayer soccerPlayer = jogadorService.buscarJogador((long) ID_VALIDO);
+        SoccerPlayer soccerPlayer = jogadorService.buscarJogador(ID_VALIDO);
 
-        assertThat(soccerPlayer).isNotNull();
-        assertThat(soccerPlayer.getName()).isEqualTo(NOME_VALIDO);
-        assertThat(soccerPlayer.getPosition()).isEqualTo(POSICAO_VALIDA);
-        assertThat(soccerPlayer.getHeight()).isEqualTo(ALTURA_VALIDA);
-        assertThat(soccerPlayer.getAge()).isEqualTo(IDADE_VALIDA);
-        assertThat(soccerPlayer.getHometown()).isEqualTo(CIDADE_NATAL_VALIDA);
+        assertThat(soccerPlayer).isEqualTo(sc);
+    }
+
+    @Test
+    public void alterarJogadorSucesso(){
+
+        when(soccerPlayerRepository.findById(ID_VALIDO)).thenReturn(Optional.of(sc));
+        when(soccerPlayerRepository.save(sc)).thenReturn(sc);
+
+        SoccerPlayer soccerPlayer = jogadorService.alterarJogador(ID_VALIDO, sc);
+
+        assertThat(soccerPlayer).isEqualTo(sc);
+    }
+
+    @Test
+    public void deletarJogadorSucesso(){
+
+        when(soccerPlayerRepository.findById(ID_VALIDO)).thenReturn(Optional.of(sc));
+
+        jogadorService.deletarJogador(ID_VALIDO);
+
+        verify(soccerPlayerRepository).deleteById(ID_VALIDO);
     }
 
     @Test(expected = JogadorNaoEncontradoException.class)
-    public void jogadorNaoEncontradoException(){
+    public void buscarJogadorIdNaoEncontrado(){
 
-        when(soccerPlayerRepository.findById((long) ID_INVALIDO)).thenReturn(Optional.empty());
+        when(soccerPlayerRepository.findById(ID_NAO_ENCONTRADO)).thenReturn(Optional.empty());
 
-        jogadorService.buscarJogador((long) ID_INVALIDO);
+        SoccerPlayer soccerPlayer = jogadorService.buscarJogador(ID_NAO_ENCONTRADO);
+
+        assertThat(soccerPlayer).isEqualTo(Optional.empty());
+    }
+
+    @Test(expected = JogadorNaoEncontradoException.class)
+    public void alterarJogadorIdNaoEncontrado(){
+
+        when(soccerPlayerRepository.findById(ID_NAO_ENCONTRADO)).thenReturn(Optional.empty());
+
+        SoccerPlayer soccerPlayer = jogadorService.alterarJogador(ID_NAO_ENCONTRADO, sc);
+
+        assertThat(soccerPlayer).isEqualTo(sc);
+    }
+
+    @Test(expected = JogadorNaoEncontradoException.class)
+    public void deletarJogadorIdNaoEncontrado() {
+
+        when(soccerPlayerRepository.findById(ID_NAO_ENCONTRADO)).thenReturn(Optional.empty());
+
+        jogadorService.deletarJogador(ID_NAO_ENCONTRADO);
+
+        verify(soccerPlayerRepository).deleteById(ID_NAO_ENCONTRADO);
     }
 }
