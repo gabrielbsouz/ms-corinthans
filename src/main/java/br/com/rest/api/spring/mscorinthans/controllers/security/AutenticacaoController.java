@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/rest/api/corinthans")
 public class AutenticacaoController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class AutenticacaoController {
     @Autowired
     private TokenService tokenService;
 
-    @PostMapping
+    @PostMapping("/v1/auth")
     public ResponseEntity<Token> autenticar(@RequestBody @Valid LoginFormPost loginFormPost) {
         UsernamePasswordAuthenticationToken dadosLogin = new UsernamePasswordAuthenticationToken(loginFormPost.getEmail(), loginFormPost.getSenha());
 

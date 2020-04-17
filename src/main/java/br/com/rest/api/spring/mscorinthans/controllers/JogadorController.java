@@ -67,4 +67,12 @@ public class JogadorController {
 
         return ResponseEntity.ok(jogador);
     }
+
+    @DeleteMapping("/v1/jogadores/{id}")
+    public ResponseEntity<?> excluirJogador(@PathVariable Long id){
+
+        jogadorService.deletarJogador(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

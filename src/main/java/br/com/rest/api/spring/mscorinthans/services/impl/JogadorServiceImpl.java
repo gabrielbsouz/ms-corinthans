@@ -6,6 +6,7 @@ import br.com.rest.api.spring.mscorinthans.models.SoccerPlayer;
 import br.com.rest.api.spring.mscorinthans.repositories.SoccerPlayerRepository;
 import br.com.rest.api.spring.mscorinthans.services.JogadorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,5 +57,14 @@ public class JogadorServiceImpl implements JogadorService {
                 }).orElseThrow(() -> new JogadorNaoEncontradoException("Jogador com o id: " + id + " não encontrado!"));
 
         return soccerPlayer;
+    }
+
+    @Override
+    public void deletarJogador(Long id) {
+
+        SoccerPlayer soccerPlayer = soccerPlayerRepository.findById(id)
+                .orElseThrow(() -> new JogadorNaoEncontradoException("Jogador com o id: " + id + " não encontrado!"));
+
+        soccerPlayerRepository.deleteById(id);
     }
 }
