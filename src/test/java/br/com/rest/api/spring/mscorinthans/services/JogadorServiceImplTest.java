@@ -1,6 +1,7 @@
 package br.com.rest.api.spring.mscorinthans.services;
 
 import br.com.rest.api.spring.mscorinthans.exceptions.JogadorNaoEncontradoException;
+import br.com.rest.api.spring.mscorinthans.models.Position;
 import br.com.rest.api.spring.mscorinthans.models.SoccerPlayer;
 import br.com.rest.api.spring.mscorinthans.repositories.SoccerPlayerRepository;
 import br.com.rest.api.spring.mscorinthans.services.impl.JogadorServiceImpl;
@@ -24,7 +25,7 @@ public class JogadorServiceImplTest {
     private static final Long ID_VALIDO = 1L;
     private static final Long ID_NAO_ENCONTRADO = 100L;
     private static final String NOME_VALIDO = "Teste Nome";
-    private static final String POSICAO_VALIDA = "Teste Posicao";
+    private static final Position POSICAO_VALIDA = Position.GOLEIRO;
     private static final String ALTURA_VALIDA = "1,95";
     private static final int IDADE_VALIDA = 30;
     private static final String CIDADE_NATAL_VALIDA = "Teste Cidade";

@@ -1,7 +1,6 @@
 package br.com.rest.api.spring.mscorinthans.services;
 
 import br.com.rest.api.spring.mscorinthans.models.SoccerPlayer;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
