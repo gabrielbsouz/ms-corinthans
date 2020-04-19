@@ -2,8 +2,10 @@ package br.com.rest.api.spring.mscorinthans.mappers;
 
 import br.com.rest.api.spring.mscorinthans.dto.DetalheJogador;
 import br.com.rest.api.spring.mscorinthans.dto.Jogador;
+import br.com.rest.api.spring.mscorinthans.dto.Posicao;
 import br.com.rest.api.spring.mscorinthans.forms.JogadorFormPost;
 import br.com.rest.api.spring.mscorinthans.forms.JogadorFormPut;
+import br.com.rest.api.spring.mscorinthans.models.Position;
 import br.com.rest.api.spring.mscorinthans.models.SoccerPlayer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -75,4 +77,9 @@ public interface JogadorMapper {
             @Mapping(target="hometown", source="detalheJogador.cidadeNatal")
     })
     SoccerPlayer detalheJogadorToSoccerPlayer(DetalheJogador detalheJogador);
+
+    Position posicaoToPosition(Posicao posicao);
+
+    Posicao positionToPosicao(Position position);
+
 }
